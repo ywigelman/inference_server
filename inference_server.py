@@ -2,7 +2,7 @@ from flask import Flask, request
 import pickle
 import pandas as pd
 import json
-
+import os
 
 app = Flask(__name__)
 MODEL_FILE_NAME = 'tyra_banks.pkl'
@@ -32,7 +32,14 @@ def predict_json():
 
 
 def main():
-    app.run()
+    port = os.environ.get('PORT')
+
+    if port:
+        # will be used if PORT is defined as environment variables (expected on Heroku)
+        app.run(host='0.0.0.0', port=int(port))
+    else:
+        # local run
+        app.run()
 
 
 if __name__ == '__main__':
