@@ -3,6 +3,7 @@ import pickle
 import pandas as pd
 import json
 import os
+import numpy as np
 
 app = Flask(__name__)
 MODEL_FILE_NAME = 'tyra_banks.pkl'
@@ -15,8 +16,21 @@ def predict():
     function for predicting house prices by client requests
     :return: predictions in JSON
     """
-    data = pd.json_normalize(json.loads(request.args.get('json')))
-    prediction = {'predictions': model.predict(data).tolist()}
+    crim = float(request.args.get('CRIM'))
+    zn = float(request.args.get('ZN'))
+    indus = float(request.args.get('INDUS'))
+    chas = float(request.args.get('CHAS'))
+    nox = float(request.args.get('NOX'))
+    rm = float(request.args.get('RM'))
+    age = float(request.args.get('AGE'))
+    dis = float(request.args.get('DIS'))
+    rad = float(request.args.get('RAD'))
+    tax = float(request.args.get('TAX'))
+    ptratio = float(request.args.get('PTRATIO'))
+    b = float(request.args.get('B'))
+    lstat = float(request.args.get('LSTAT'))
+    record = np.array([crim, zn , indus, chas, nox, rm, age, dis, rad, tax, ptratio, b, lstat])
+    prediction = {'predictions': model.predict(record).tolist()}
     return json.dumps(prediction)
 
 
