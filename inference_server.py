@@ -29,7 +29,7 @@ def predict():
     ptratio = float(request.args.get('PTRATIO'))
     b = float(request.args.get('B'))
     lstat = float(request.args.get('LSTAT'))
-    record = np.array([crim, zn , indus, chas, nox, rm, age, dis, rad, tax, ptratio, b, lstat])
+    record = np.array([crim, zn, indus, chas, nox, rm, age, dis, rad, tax, ptratio, b, lstat]).reshape(1, -1)
     prediction = {'predictions': model.predict(record).tolist()}
     return json.dumps(prediction)
 
